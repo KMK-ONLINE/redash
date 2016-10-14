@@ -9,10 +9,12 @@
     });
   };
 
-  var DashboardCtrl = function($scope, Events, Widget, $routeParams, $location, $http, $timeout, $q, $modal, Dashboard) {
+  var DashboardCtrl = function($scope, Events, Widget, $routeParams, $location, $http, $timeout, $q, $modal, Dashboard, $route) {
     $scope.refreshEnabled = false;
     $scope.isFullscreen = false;
     $scope.refreshRate = 60;
+    $scope.pStartTime = undefined;
+    $scope.pEndTime = undefined;
 
     var renderDashboard = function (dashboard) {
       $scope.$parent.pageTitle = dashboard.name;
@@ -106,6 +108,42 @@
         }, $scope.refreshRate);
       }
     };
+
+    $scope.doFilter = function() {
+      var selectors = document.querySelectorAll("[ng-controller=WidgetCtrl]");
+      _.each(selectors, function(selector) {
+        var otherScope = angular.element(selector).scope();
+        otherScope.reload(true);
+      });
+    }
+
+    $scope.$watch('pStartTime', function() {
+      $location.search('p_start_time', $scope.pStartTime);
+      var selectors = document.querySelectorAll("parameters input");
+      _.each(selectors, function(selector) {
+        var otherScope = angular.element(selector).scope();
+        var parameters = otherScope.parameters;
+        _.each(parameters, function(parameter) {
+          if (parameter.name === 'start_time') {
+            parameter.value = $scope.pStartTime;
+          }
+        });
+      });
+    });
+
+    $scope.$watch('pEndTime', function() {
+      $location.search('p_end_time', $scope.pEndTime);
+      var selectors = document.querySelectorAll("parameters input");
+      _.each(selectors, function(selector) {
+        var otherScope = angular.element(selector).scope();
+        var parameters = otherScope.parameters;
+        _.each(parameters, function(parameter) {
+          if (parameter.name === 'end_time') {
+            parameter.value = $scope.pEndTime;
+          }
+        });
+      });
+    });
 
     $scope.archiveDashboard = function () {
       if (confirm('Are you sure you want to archive the "' + $scope.dashboard.name + '" dashboard?')) {
@@ -235,7 +273,7 @@
   };
 
   angular.module('redash.controllers')
-    .controller('DashboardCtrl', ['$scope', 'Events', 'Widget', '$routeParams', '$location', '$http', '$timeout', '$q', '$modal', 'Dashboard', DashboardCtrl])
+    .controller('DashboardCtrl', ['$scope', 'Events', 'Widget', '$routeParams', '$location', '$http', '$timeout', '$q', '$modal', 'Dashboard', '$route', DashboardCtrl])
     .controller('PublicDashboardCtrl', ['$scope', 'Events', 'Widget', '$routeParams', '$location', '$http', '$timeout', '$q', 'Dashboard', PublicDashboardCtrl])
     .controller('WidgetCtrl', ['$scope', '$location', 'Events', 'Query', WidgetCtrl])
 
