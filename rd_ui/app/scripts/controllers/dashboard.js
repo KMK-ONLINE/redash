@@ -10,11 +10,15 @@
   };
 
   var DashboardCtrl = function($scope, Events, Widget, $routeParams, $location, $http, $timeout, $q, $modal, Dashboard, $route) {
+    var todayDate = new Date();
+    var lastWeekDate = new Date(todayDate.getTime());
+    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+
     $scope.refreshEnabled = false;
     $scope.isFullscreen = false;
     $scope.refreshRate = 60;
-    $scope.pStartTime = undefined;
-    $scope.pEndTime = undefined;
+    $scope.pStartTime = $.datepicker.formatDate('yy-mm-dd', lastWeekDate);
+    $scope.pEndTime = $.datepicker.formatDate('yy-mm-dd', todayDate);
 
     var renderDashboard = function (dashboard) {
       $scope.$parent.pageTitle = dashboard.name;
@@ -224,6 +228,10 @@
         }]
       });
     }
+
+    $(".form-control.getdate").each(function() {
+      $(this).datepicker({dateFormat: 'yy-mm-dd'});
+    });
   };
 
   var WidgetCtrl = function($scope, $location, Events, Query) {
