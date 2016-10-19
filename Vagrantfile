@@ -12,4 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     s.inline = "/opt/redash/current/setup/vagrant/provision.sh"
     s.privileged = false
   end
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
 end

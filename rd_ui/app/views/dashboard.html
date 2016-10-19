@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
 <new-widget-form dashboard="dashboard"></new-widget-form>
 <edit-dashboard-form dashboard="dashboard" id="edit_dashboard_dialog"></edit-dashboard-form>
 
@@ -38,6 +40,21 @@
 
   <div class="m-b-5">
     <filters ng-if="dashboard.dashboard_filters_enabled"></filters>
+    <div class="container bg-white p-5" ng-if="dashboard.time_filters_enabled">
+      <div class="form-group dashboard-filter col-sm-12" ng-controller="DashboardCtrl">
+        <div class="col-sm-6">
+          <label>Start Time</label>
+          <input type="text" class="form-control getdate" id="datePicker1" ng-model="pStartTime" />
+        </div>
+        <div class="col-sm-6">
+          <label>End Time</label>
+          <input type="text" class="form-control getdate" id="datePicker2" ng-model="pEndTime" />
+        </div>
+      </div>
+      <div class="col-sm-12 override-col-centered">
+        <button type="button" class="btn btn-primary btn-s col-sm-2 override-center" ng-click="doFilter()">Filter</button>
+      </div>
+    </div>
   </div>
 
     <div ng-repeat="row in dashboard.widgets" class="row">

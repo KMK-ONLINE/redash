@@ -10483,3 +10483,9 @@ a.thumbnail.active {
   font-size: 13px;
   margin: 20px 2px 0;
 }
+.override-center {
+    float: none;
+}
+.override-col-centered {
+    text-align: center;
+}

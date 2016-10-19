@@ -852,6 +852,7 @@ class Dashboard(ModelTimestampsMixin, BaseModel, BelongsToOrgMixin):
     layout = peewee.TextField()
     dashboard_filters_enabled = peewee.BooleanField(default=False)
     is_archived = peewee.BooleanField(default=False, index=True)
+    time_filters_enabled = peewee.BooleanField(default=False)
 
     class Meta:
         db_table = 'dashboards'
@@ -905,7 +906,8 @@ class Dashboard(ModelTimestampsMixin, BaseModel, BelongsToOrgMixin):
             'widgets': widgets_layout,
             'is_archived': self.is_archived,
             'updated_at': self.updated_at,
-            'created_at': self.created_at
+            'created_at': self.created_at,
+            'time_filters_enabled': self.time_filters_enabled
         }
 
     @classmethod
