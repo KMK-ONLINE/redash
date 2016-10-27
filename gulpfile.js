@@ -124,8 +124,13 @@ gulp.task('copy:fonts', function () {
     .pipe(gulp.dest(yeoman.dist + '/fonts'));
 });
 
+gulp.task('copy:styles', function () {
+  return gulp.src(applyAppPath(['/bower_components/jquery-ui/themes/smoothness/**']))
+    .pipe(gulp.dest(yeoman.dist + '/styles/jquery-ui/themes/smoothness'));
+});
+
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build']);
+  runSequence(['images', 'copy:extras', 'copy:fonts', 'copy:styles', 'client:build']);
 });
 
 gulp.task('default', ['build']);
